@@ -9,7 +9,7 @@
 ; linkedit: ld -o hello -e mystart -o hello.o 
 ; =============================================================================
 
-section .text
+SEGMENT .text
 
 global mystart 								; make the main function externally visible 
 
@@ -42,7 +42,7 @@ mystart:
 
 	;2c no need to clean up because no code here would be executed... already exited! 
 
-section .data 
+SEGMENT .data 
 
 	mymsg db "hello, world",0xa					; string with a carriage-return 
 	mylen equ $-mymsg 						; string length in bytes
