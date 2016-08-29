@@ -1,5 +1,6 @@
 ; =============================================================================
 ; hellolibr.asm - hello world using library call to 'sys.asm', written before 
+; For OS X i386 archtecture
 ; Programmer : Julio Torres 
 ; Date       : 2016-08-29
 ; Source     : peter.michaux.ca 
