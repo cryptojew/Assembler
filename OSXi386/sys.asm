@@ -6,7 +6,7 @@
 ; Source     : peter.michaux.ca 
 ; =============================================================================
 
-section .text 
+SEGMENT .text 
 
 ; make the library API externally visible 
 global mywrite 
