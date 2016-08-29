@@ -9,7 +9,7 @@
 ; linkedit: ld -o helloproc -e mystart -o helloproc.o 
 ; =============================================================================
 
-section .text 
+SEGMENT .text 
 
 global mystart									; make the main function externally visible 
 
@@ -50,7 +50,7 @@ mystart:
 
 	; 2c no need to clean up, because no code here would be executed. Already exited! 
 
-	section .data 
+SEGMENT .data 
 
 		mymsg db "hello world procedural", 0xa	; string with carriage return 
 		mylen equ $-mymsg 						; string length in bytes 
