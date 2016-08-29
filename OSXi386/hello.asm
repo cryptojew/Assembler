@@ -1,7 +1,13 @@
+; =============================================================================
 ; hello.asm - a hello world program using AMS 
 ; For OS X i386 archtecture
+; Programmer : Julio Torres 
+; Date       : 2016-08-29
+; Source     : peter.michaux.ca 
+; =============================================================================
 ; compile: nasm -f macho hello.asm
 ; linkedit: ld -o hello -e mystart -o hello.o 
+; =============================================================================
 
 section .text
 
