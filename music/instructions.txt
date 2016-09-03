@@ -1,0 +1,147 @@
+------------------------
+Atari 2600 Music Kit 2.0
+Created by Paul Slocum
+Release 2.20.03
+------------------------
+
+
+-------------------
+W H A T ' S   N E W
+-------------------
+
+This is the second release of my Atari 2600 music development kit.  The new version includes a much better song player with a color light show display, measure number display, and pause, rewind and fast forward controls, and the music driver has been updated with:
+
+- New data format that produces significantly more compact music data by using smaller patterns to increases reuse of data.
+
+- Optimized driver code that is smaller and uses fewer cycles. (Thanks to Thomas Jentzch)
+
+- New integrated high hat player that plays a high hat pattern without having to put it into your music data.
+
+- Entire patterns now can now be set to either loud or soft.
+
+- Now allows independent global volume control for each sound type.
+
+Unfortunately, the new version is not compatible with music data files from the old version, although they can be converted without much trouble.
+
+
+---------
+I N T R O
+---------
+
+The Atari 2600 Music Kit allows you to write music for the Atari 2600.  It's a 2600 music driver and by writing your own data file for it, you can assemble a ROM file for the 2600 that will play your music.  The ROM can be used on an emulator or on a real Atari 2600 using a Supercharger cartridge, Cuttle Cart, or EPROM cartridge.  
+
+The music data is contained in a text file where it is arranged similarly to a pattern based sequencer.  You write 8 step patterns (of 32nd notes) that are arranged by fours into full measure patterns.  Then you define an order for the measure patterns to be played.  The player plays two sequences simultaneously -- one on each of the 2600's two oscillators.  The two sequence setup save space (and time) since you often repeat a drum beat or bass pattern on one oscillator while changing patterns on the other to play a varying melody.
+
+There are a lot of applications for this kit.  You might make backing tracks for your band, or write music entirely on the 2600.  You could use multiple 2600's to make more complex songs (they will stay in sync if you just start them at the same time.)  Although the song data does eat up ROM space, the player is small and uses few cycles and little RAM, so any song written with the kit can be added to a homebrew game rather easily.  There is a pretty big demand for game music and I encourage anybody that gets into writing music with this kit to introduce yourself to the 2600 homebrew community (most of the 2600 programmers hang out on the Atariage.com message boards.)
+
+Since the kit requires an assembler and I don't have means to test any assemblers on platforms other than PC, the kit currently will only work on PC.  I do have some tips and links for getting it running on Mac and Linux on my website.
+
+Also, this project is a great candidate for a more user friendly front-end interface.  While I'm not great at writing that sort of thing,
+I'm sure someone else could whip one out without much trouble.  If you're intersted in writing one, let me know and I'll be glad to help out where I can.
+
+
+-----------------
+F I L E   L I S T
+-----------------
+
+asm.bat___________ batch file for assembling ROM image
+dasm.exe__________ assembler
+deb.bat___________ batch file for debugging assembly
+demosong.h________ example song data with detailed comments
+instructions.txt__ this file
+song.h____________ main song data file (copy of demosong.h)
+songfont.h________ font for the song player program
+songmain.asm______ song player main program
+songmain.bin______ Atari 2600 ROM of song player
+songplay.h________ sound driver / sequence player
+vcs.h_____________ 2600 register defines
+
+
+---------------------------
+W R I T I N G   A   S O N G
+---------------------------
+
+The file you will be concerned with is song.h.  The driver will read the song data out of this file.  The music is written into 8 step patterns where each step contains an encoded sound type and pitch.  These short patterns are arranged by fours into full measure patterns.  Then the full measure patterns are sequenced into a song.  You will find a demo song and detailed instructions on how the song data file works in song.h.  You will also find a copy of song.h in demosong.h so you can modify song.h and still have a copy of the original demo song and instructions.
+
+To work on more than one song, you might just create a folder for each song and copy the files in.  Future versions will support more than one song in a ROM.
+
+
+---------------------------------------------
+M U S I C   P R O G R A M M I N G   G U I D E
+---------------------------------------------
+
+I've written a new Atari 2600 sound and music programming guide that is a must-have if you are going to write 2600 music.  It covers most of what I know about 2600 music programming and has a great set of note tables to use.  This guide is available on my website.
+
+
+------------------------------------------
+A S S E M B L I N G   T H E    P L A Y E R
+------------------------------------------
+
+The kit comes with songmain.bin already assembled, but when you start writing your own songs, you will need to re-assemble it.  I've included two simple batch files to aid in assembling the ROM.  Simply run ASM.BAT to re-assemble the ROM after you've changed the song data.  If you encounter errors, you may have to run DEB.BAT which will run the assembler in "verbose" mode and display error messages in more detail.  
+
+The most likely error you will get will be due to the name of a pattern and the name you put in the patternArray failing to match up.  If this happens you will get a "Source is not resolvable" when running ASM.BAT.  Run DEB.BAT and pay attention to the SYMBOL LIST to see which name is the problem.  When you run DEB.BAT you don't want to see anything in the SYMBOL LIST.
+
+Another error you could see is "Origin reverse-index" which means that you've run out of room.  You'll have to have a pretty long and complex song for this to happen though.
+
+For reference, ASM.BAT runs the command:
+
+dasm songmain.asm -f3 -osongmain.bin
+
+and DEB.BAT executes:
+
+dasm songmain.asm -f3 -v3 -osongmain.bin
+
+
+-----------------------------------
+R U N N I N G   T H E   P L A Y E R
+-----------------------------------
+
+The songmain.bin file is a ROM image that will play on 2600 emulators or a real Atari.  When you run the ROM, you will see a measure number at the top of the screen and colored patterns below.  The song will play when the B&W/Color switch is set to Color and will pause when it is set to B&W.  The Game Reset switch will fast forward and Game Select switch will Rewind.  
+
+For an emulator, I recommend trying the new Windows version of Z26 because the sound emulation is really great: http://www.whimsey.com/z26/z26.html.
+
+The Cuttle Cart and Supercharger cartridges allow you to load data onto the cartridge through an audio cable.  Using the Playbin program, you can load the ROM onto either cartridge using your computer's sound card.  Cuttle Carts are not available anymore, but Superchargers are pretty easy to find though ebay or vintage game dealers.  They generally cost about $25.  For the Playbin program, see the Cuttle Cart webpage:
+
+http://www.schells.com/cuttlecart.shtml
+
+If you want a real cartridge of your song, Atariage.com will  make cartridges of your ROM image for around $15-$20.
+
+http://www.atariage.com
+
+
+-----------------------
+F U T U R E   P L A N S
+-----------------------
+
+Still to come in future releases:
+
+- More precise tempo control
+- Joystick control
+- Support for multiple songs in one ROM image
+- Documentation of exact tempo values in BPM
+- Possibly a way to sync the player to other gear
+
+
+-------------------
+C H A N G E   L O G
+-------------------
+
+9.12.02  First version released.
+2.20.03  Version II with new driver and song player.
+
+
+-------------
+L I C E N S E
+-------------
+
+The sequencer kit is freeware.  It may be distributed freely and the code may be modified as needed.  Any distribution must include this  file and if changes are made to the code, they must be clearly indicated.  This software may NOT be sold.
+
+
+-------------
+C O N T A C T
+-------------
+
+Let me know about any bugs, suggestions, feedback, songs you've created, etc.  I'll also be happy to post pattern data, song data, or MP3s on my website.  And I'm not the best at writing instructions, so let me know if you think I'm leaving out anything.
+
+paul_slocum@mindspring.com
+http://www.qotile.net
